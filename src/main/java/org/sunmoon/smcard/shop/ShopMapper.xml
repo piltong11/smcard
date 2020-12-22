@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.sunmoon.smcard.shop.ShopMapper">
+	<resultMap id="shopResultMap" type="org.sunmoon.smcard.co.Shop">
+        <result column="BUSINESS_REGIST_NO" property="businessRegistNo" />
+        <result column="SHOP_NAME" property="shopName" />
+        <result column="ADDRESS" property="address" />
+        <result column="DETAIL_ADDRESS" property="detailAddress" />
+        <result column="ZIP_CODE" property="zipCode" />
+    </resultMap>
+    
+    <select id="select" resultMap="shopResultMap">
+    	SELECT
+    		BUSINESS_REGIST_NO,
+    		SHOP_NAME,
+    		ADDRESS,
+    		DETAIL_ADDRESS,
+    		ZIP_CODE
+    	FROM 
+    		SHOP
+    	WHERE
+    		BUSINESS_REGIST_NO = #{businessRegistNo}
+    </select>
+</mapper>

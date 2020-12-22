@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.sunmoon.smcard.cardrecord.CardRecordMapper">
+	<resultMap id="cardRecordResultMap" type="org.sunmoon.smcard.co.CardRecord">
+        <result column="NO" property="no" />
+        <result column="CARD_NO" property="cardNo" />
+        <result column="BUSINESS_REGIST_NO" property="businessRegistNo" />
+        <result column="PAYMENT_DATE" property="paymentDate" />
+        <result column="AMOUNT" property="amount" />
+    </resultMap>
+    
+    <resultMap id="countResultMap" type="org.sunmoon.smcard.co.Count">
+        <result column="PAYMENT_DATE" property="paymentDate" />
+        <result column="COUNT(*)" property="count" />
+    </resultMap>
+    
+    <select id="selectAll" parameterType="org.sunmoon.smcard.co.Patient" 
+    		resultMap="cardRecordResultMap">
+    	SELECT
+			DISTINCT BUSINESS_REGIST_NO
+		FROM
+			CARD_RECORD
+		WHERE 
+			CARD_NO = #{cardNo} AND
+			PAYMENT_DATE BETWEEN #{expectedDate} AND #{confirmationDate};
+    </select>
+    
+    <select id="selectCount" resultMap="countResultMap">
+    	SELECT
+			DISTINCT PAYMENT_DATE,
+			COUNT(*)
+		FROM
+			CARD_RECORD
+		WHERE
+			BUSINESS_REGIST_NO = #{Shop.businessRegistNo} AND
+			PAYMENT_DATE BETWEEN #{Patient.expectedDate} AND #{Patient.confirmationDate}
+		GROUP BY
+			PAYMENT_DATE
+		ORDER BY
+			PAYMENT_DATE;
+    </select>
+</mapper>
